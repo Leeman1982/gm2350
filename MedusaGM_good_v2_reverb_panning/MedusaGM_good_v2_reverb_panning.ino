@@ -1,20 +1,26 @@
 // ============================================================================
 //  Medusa GM  --  a 16-track General-MIDI groovebox + 1 AMY synth track
 //  ---------------------------------------------------------------------------
-//  Hardware:  Raspberry Pi Pico 2 (RP2350)  |  Arduino IDE w/ arduino-pico core
-//             PCM5102 I2S DAC  |  2.42" SSD1309 OLED  |  rotary encoder + 5 buttons
+//  Hardware:  RP2040 w/ 16 MB flash (TENSTAR / WeAct RP2040 Pro Micro 16MB)
+//             RP2350 / Pico 2 also supported  |  arduino-pico core
+//             PCM5102 I2S DAC  |  128x64 SH1106 OLED  |  rotary encoder + 5 buttons
 //
 //  Audio is produced by the AMY synthesizer library.  The 16 GM tracks play
-//  samples from a SoundFont that has been baked into AMY's flash PCM ROM bank
-//  by tools/sf2_to_amy.py; the 17th track is an AMY subtractive synth voice.
+//  samples from a full General-MIDI SoundFont baked into AMY's flash PCM ROM
+//  bank at 44.1 kHz by tools/sf2_to_amy.py; the 17th track is an AMY
+//  subtractive synth voice.  The 7 MB bank is why this build wants 16 MB flash.
 //
 //  Build notes (Arduino IDE):
-//    Board:        Raspberry Pi Pico 2  (Tools > board: "Raspberry Pi RP2350")
-//    CPU Speed:    200 MHz or more (250 MHz recommended for full polyphony)
+//    Board:        "Raspberry Pi Pico" / generic RP2040  (arduino-pico core)
+//    Flash Size:   16 MB board.  Pick a layout that leaves an FS partition for
+//                  song save/load, e.g. "15 MB Sketch + 1 MB FS" (the ~7 MB
+//                  sample bank + code fit the sketch region with room to spare).
+//    CPU Speed:    overclock to >= 200 MHz (the GM bank + reverb/chorus need it)
 //    Optimize:     -O3 / "Fast"
-//    Flash Size:   a layout that reserves an FS partition (for song save/load)
+//    Display:      set OLED_DRIVER in config.h (SH1106 default / SSD1306 / SSD1309)
 //    Libraries:    AMY (this repo's fork w/ the GM bank), U8g2
-//  See README.md for full wiring and the control map.
+//  For RP2350/Pico 2 the same sketch builds unchanged; config.h auto-tunes the
+//  voice pool up to 40 voices.  See README.md for full wiring and the control map.
 // ============================================================================
 
 #include <AMY-Arduino.h>

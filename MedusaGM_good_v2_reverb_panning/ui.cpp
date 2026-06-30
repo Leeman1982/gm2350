@@ -8,8 +8,18 @@
 // (147 = the Medusa GM bank; a small number = the stock AMY library).
 extern "C" const uint16_t pcm_samples;
 
-// Full-frame buffer SSD1309 2.42" 128x64 over hardware I2C.
+// Full-frame buffer 128x64 OLED over hardware I2C.  The controller is selected
+// by OLED_DRIVER in config.h — SH1106 / SSD1306 / SSD1309 are interchangeable on
+// these panels, so switching drivers is a one-line change with no rewiring.
+#if   OLED_DRIVER == OLED_DRV_SH1106
+static U8G2_SH1106_128X64_NONAME_F_HW_I2C  oled(U8G2_R0, U8X8_PIN_NONE);
+#elif OLED_DRIVER == OLED_DRV_SSD1306
+static U8G2_SSD1306_128X64_NONAME_F_HW_I2C oled(U8G2_R0, U8X8_PIN_NONE);
+#elif OLED_DRIVER == OLED_DRV_SSD1309
 static U8G2_SSD1309_128X64_NONAME0_F_HW_I2C oled(U8G2_R0, U8X8_PIN_NONE);
+#else
+#error "Set OLED_DRIVER in config.h to OLED_DRV_SH1106, _SSD1306 or _SSD1309"
+#endif
 
 // ─── note / drum naming ─────────────────────────────────────────────────────
 static const char* NOTE_NAMES[12] =

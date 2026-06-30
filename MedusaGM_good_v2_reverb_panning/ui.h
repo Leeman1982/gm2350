@@ -1,7 +1,8 @@
 #pragma once
 // ============================================================================
 //  Medusa GM  --  ui.h
-//  2.42" SSD1309 OLED interface driven by the encoder + 5 buttons.
+//  128x64 OLED interface (SH1106 / SSD1306 / SSD1309, see OLED_DRIVER in
+//  config.h) driven by the encoder + 5 buttons.
 //
 //  Control scheme (SHIFT = hold the SHIFT button):
 //    PLAY              play / stop          SHIFT+PLAY   stop & rewind
